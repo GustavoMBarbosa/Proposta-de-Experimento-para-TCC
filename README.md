@@ -12,12 +12,12 @@ Impacto do uso de ferramentas de análise estática na identificação de vulner
 
 ### 1.3 Versão do documento
 
-- **Versão Atual:** v1.0
+- **Versão Atual:** v1.1
 
 ### 1.4 Datas
 
 **Data de criação:** 17/11/2025 | 
-**Ultima atualização:** 17/11/2025
+**Ultima atualização:** 18/11/2025
 
 ### 1.5 Autores
 
