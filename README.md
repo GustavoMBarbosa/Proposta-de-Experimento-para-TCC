@@ -12,12 +12,12 @@ Impacto do uso de ferramentas de análise estática na identificação de vulner
 
 ### 1.3 Versão do documento
 
-- **Versão Atual:** v1.1
+- **Versão Atual:** v1.2
 
 ### 1.4 Datas
 
 **Data de criação:** 17/11/2025 | 
-**Ultima atualização:** 18/11/2025
+**Ultima atualização:** 19/11/2025
 
 ### 1.5 Autores
 
@@ -163,3 +163,94 @@ Esse referencial teórico e empírico servirá de base para:
 - Selecionar e justificar o **teste de hipóteses** mais adequado para comparar os resultados dos grupos analisados.
 
 ---
+
+# 3. Objetivos e Questões (GQM)
+
+## 3.1 Objetivos Geral 
+**Analisar** o impacto do uso de ferramentas de análise estática (CodeQL e SonarQube)  
+**com o propósito de** avaliar sua eficácia na identificação de vulnerabilidades  
+**sob a perspectiva** de desenvolvedores, equipes de qualidade e gestores  
+**no contexto** de projetos Node.js open source hospedados no GitHub.
+
+---
+
+## 3.2
+
+**O1.** Comparar a quantidade e o tipo de vulnerabilidades detectadas entre CodeQL e SonarQube.  
+**O2.** Avaliar o custo de triagem (tempo/esforço) dos alertas gerados pelas ferramentas.  
+**O3.** Analisar a taxa de falsos positivos produzidos pelas ferramentas.  
+**O4.** Avaliar o impacto da análise estática na qualidade geral do código (métricas internas).
+
+## 3.3 Questões de Pesquisa (Por Objetivo)
+
+### **01 - Comparar vulnerabilidades encontradas**
+
+- **Q1.1:** Qual ferramenta encontra mais vulnerabilidades totais?
+- **Q1.2:** Qual ferramenta encontra mais vulnerabilidades críticas ou altas?
+- **Q1.3:** As ferramentas detectam os mesmos tipos de vulnerabilidades?
+
+--- 
+
+###  **O2 – Custo de triagem**
+
+- **Q2.1:** Quanto tempo é gasto para revisar e classificar os alertas?
+- **Q2.2:** Quantos alertas exigem intervenção manual?
+- **Q2.3:** A curva de aprendizado da ferramenta impacta o tempo de triagem?
+
+---
+
+### **O3 – Falsos positivos**
+
+- **Q3.1:** Qual ferramenta gera mais falsos positivos?
+- **Q3.2:** Quais categorias apresentam mais falsos positivos?
+- **Q3.3:** O nível de severidade influencia a taxa de falsos positivos?
+
+---
+
+### **O4 – Impacto na qualidade interna**
+
+- **Q4.1:** Há redução de complexidade ciclomática após uso da ferramenta?
+- **Q4.2:** O número de code smells diminui após a análise?
+- **Q4.3:** A densidade de defeitos tende a diminuir com a aplicação recorrente das ferramentas?
+
+---
+
+### 3.4 Métricas Associadas
+
+| Objetivo            | Pergunta            | Métrica             | Descrição             |
+|---------------------|---------------------|---------------------|-----------------------|
+| O1 | Q1.1 | M1 – Nº total de vulnerabilidades | Contagem total de vulnerabilidades detectadas |
+| O1 | Q1.2 | M2 – Nº de vulnerabilidades críticas/altas | Quantidade de vulnerabilidades de severidade crítica/alta |
+| O1 | Q1.3 | M3 – Diversidade de tipos detectados | Número de categorias diferentes detectadas por ferramenta |
+| O2 | Q2.1 | M4 – Tempo de triagem (min) | Tempo gasto para revisar e classificar alertas |
+| O2 | Q2.2 | M5 – Nº de alertas que exigem intervenção | Contagem de alertas marcados como “revisar manualmente” |
+| O2 | Q2.3 | M6 – Tempo de aprendizado | Tempo para aprender a usar a ferramenta no nível básico |
+| O3 | Q3.1 | M7 – Taxa de falsos positivos (%) | Falsos positivos ÷ alertas totais |
+| O3 | Q3.2 | M8 – Falsos positivos por categoria | Contagem por tipo de vulnerabilidade |
+| O3 | Q3.3 | M9 – Falsos positivos por severidade | Contagem por nível (alta, média, baixa) |
+| O4 | Q4.1 | M10 – Variação da complexidade ciclomática | Diferença antes/depois da análise |
+| O4 | Q4.2 | M11 – Nº de code smells | Contagem de problemas de código |
+| O4 | Q4.3 | M12 – Densidade de defeitos | Defeitos ÷ LOC (linhas de código) |
+
+---
+
+## 3.5 Tabela Geral das Métricas
+
+| Métrica | Descrição | Unidade |
+|---------|-----------|---------|
+| M1 | Nº total de vulnerabilidades identificadas pela ferramenta | contagem |
+| M2 | Nº de vulnerabilidades críticas ou altas | contagem |
+| M3 | Diversidade de tipos de vulnerabilidade detectados | nº de categorias |
+| M4 | Tempo total requerido para triagem de alertas | minutos |
+| M5 | Nº de alertas que exigem intervenção manual | contagem |
+| M6 | Tempo estimado para aprendizado básico da ferramenta | horas |
+| M7 | Proporção de falsos positivos sobre alertas totais | % |
+| M8 | Contagem de falsos positivos por categoria | contagem |
+| M9 | Falsos positivos por severidade | contagem |
+| M10 | Variação da complexidade ciclomática média | pontos de complexidade |
+| M11 | Contagem de code smells detectados | contagem |
+| M12 | Densidade de defeitos por mil linhas de código | defeitos por KLOC |
+
+---
+
+# 4. Escopo e Contexto do Experimento
