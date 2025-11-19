@@ -3,34 +3,34 @@
 
 # 1. Identificação básica 
 
-### 1.1 Títutlo do experimento
+## 1.1 Títutlo do experimento
 Impacto do uso de ferramentas de análise estática na identificação de vulnerabilidades em projetos Node.js open source
 
-### 1.2 Código / Id
+## 1.2 Código / Id
 
 ``EXP-TCC-2025-ANALISE-ESTATICA-NODE``
 
-### 1.3 Versão do documento
+## 1.3 Versão do documento
 
-- **Versão Atual:** v1.2
+- **Versão Atual:** v1.3
 
-### 1.4 Datas
+## 1.4 Datas
 
 **Data de criação:** 17/11/2025 | 
 **Ultima atualização:** 19/11/2025
 
-### 1.5 Autores
+## 1.5 Autores
 
 - **Autor:** Gustavo Menezes Barbosa  
  - **Curso / área:** Engenharia de Software  
   - **Instituição:** PUC Minas  
   - **E-mail:** `gustavo.barbosa.1386677@sga.pucminas.br`  
 
-### 1.6 Responsável principal
+## 1.6 Responsável principal
 
 - **Responsavel principal (PI):** Gustavo Menezes Barbosa
 
-### 1.7 Projeto / Produto
+## 1.7 Projeto / Produto
 
 Este experimento está relacionado à proposta de Trabalho de Conclusão de Curso (TCC) na área de **Qualidade de Software e Engenharia de Software Empírica**, com foco em:
 
@@ -40,9 +40,9 @@ Este experimento está relacionado à proposta de Trabalho de Conclusão de Curs
 
 ---
 
-## 2. Contexto do problema
+# 2. Contexto do problema
 
-### 2.1 Descrição do problema / oportunidade
+## 2.1 Descrição do problema / oportunidade
 
 Projetos de software, espceialmente em ambientes colaborativos e open ource ,estão cada vez mais expostos a riscos de **vulnerabilidades de segurança** devido a:
 
@@ -103,7 +103,7 @@ No cenário futuro do TCC, esse experimento poderá ser:
 - Executado usando um conjunto de projetos selecionados a partir de critérios claros (por exemplo número mínimo de estrelas);  
 - Integrado ao pipeline de desenvolvimento de uma organização.
 
-### 2.3 Trabalhos e evidências prévias
+## 2.3 Trabalhos e evidências prévias
 
 Algumas evidências e trabalhos prévios que motivam este experimento incluem:
 
@@ -128,7 +128,7 @@ Apesar dessas evidências, ainda há **lacunas específicas**, como:
 
 Essas lacunas motivam o planejamento de um experimento mais estruturado, que possa ser evoluído e executado no TCC.
 
-### 2.4 Referencial teórico e empírico essencial
+## 2.4 Referencial teórico e empírico essencial
 
 Para fundamentar o experimento, serão considerados pelo menos três eixos principais de referencial:
 
@@ -215,7 +215,7 @@ Esse referencial teórico e empírico servirá de base para:
 
 ---
 
-### 3.4 Métricas Associadas
+## 3.4 Métricas Associadas
 
 | Objetivo            | Pergunta            | Métrica             | Descrição             |
 |---------------------|---------------------|---------------------|-----------------------|
@@ -254,3 +254,117 @@ Esse referencial teórico e empírico servirá de base para:
 ---
 
 # 4. Escopo e Contexto do Experimento
+
+## **4.1 Escopo Incluido** 
+
+- Projetos Node.js open source do GitHub
+- Execução das ferramentas **CodeQL** e **SonarQube** 
+- Coleta automática de:
+  - vulnerabilidades
+  - severidade
+  - tipos detectados
+  - code smells
+  - métricas de complexidade  
+- Triagem manual dos alertas  
+- Comparação direta entre ferramentas
+
+## **4.2 Escopo Excluído**
+
+- Testes dinâmicos de segurança 
+- Ferramentas de SAST comerciais pagas 
+- Projetos privados / código confidencial  
+- Avaliação de pipelines CI/CD completos  
+- Execução real do experimento
+
+---
+
+## 4.3 Premissas
+
+- Repositórios GitHub estarão acessíveis e estáveis.
+- Ferramentas (CodeQL/SonarQube) serão executáveis no ambiente local.
+- Documentação das ferramentas é suficiente para aprendizado básico.
+- Projetos escolhidos terão tamanho adequado e histórico mínimo.
+
+---
+
+## 4.4 Restrições
+
+- Tempo limitado para planejamento.  
+- Ferramentas gratuitas podem ter limitações de cobertura.  
+- Ambiente computacional pessoal (sem servidores dedicados).  
+- Não haverá participação de equipe externa.  
+
+---
+
+## 4.5 Limitações Previstas
+
+- Resultados podem não generalizar para outros domínios além de Node.js.
+- Apenas projetos open source serão considerados.
+- Triagem manual pode introduzir subjetividade.
+- Falta de execução real do experimento nesta disciplina (somente planejamento).
+
+---
+
+# 5. Stakeholders e Impacto Esperado
+
+## 5.1 Stakeholders Principais
+
+- **Aluno pesquisador (PI)**
+- **Professor da disciplina**
+- **Desenvolvedores Node.js**
+- **Equipes de QA/SecOps**
+- **Gestores de Engenharia**
+- **Comunidade open source**
+
+---
+
+## 5.2 Interesses e Expectativas
+
+| Stakeholder | Interesse / Expectativa |
+|-------------|-------------------------|
+| PI | Conduzir experimento estruturado para o TCC                |
+| Professor | Validação do planejamento e coerência metodológica  |
+| Desenvolvedores | Entender se vale a pena adotar ferramentas    |
+| QA / Segurança | Comparar precisão e falsos positivos           |
+| Gestores | Apoiar decisões de investimento e governança         |
+| Comunidade open source | Melhorar segurança dos projetos        |
+
+---
+
+## 5.3 Impactos Potenciais
+
+- Melhor orientação para escolha de ferramentas de segurança.  
+- Redução de vulnerabilidades e aumento da qualidade.  
+- Aumento de esforço de triagem no curto prazo.  
+- Possível mudança na cultura de desenvolvimento seguro.
+
+---
+
+# 6. Riscos, Critérios de Sucesso e Parada
+
+## 6.1 Riscos de Alto Nível
+
+- Falhas ao executar ferramentas (CodeQL/SonarQube).  
+- Projetos escolhidos sem vulnerabilidades detectáveis.  
+- Inconsistência na triagem manual dos alertas.  
+- Falta de dados suficientes para análise futura no TCC.
+
+---
+
+## 6.2 Critérios de Sucesso Globais
+
+- Escopo planejado está completo e coerente para execução futura.  
+- Métricas e perguntas bem definidas possibilitam teste estatístico real.  
+- Viabilidade demonstrada para uso no TCC.  
+- Clareza suficiente para replicação e reprodutibilidade futura.
+
+---
+
+## 6.3 Crotérios de Parada Antecipada
+
+- Falta de acesso ás ferramentas.
+- impossibilidade de escolher projetos elegíveis.
+- Mudança de tema do TCC inviabilizando a continuidade.
+- problemas técnicos críticos no ambiente experimental
+
+---
