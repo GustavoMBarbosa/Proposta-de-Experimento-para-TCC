@@ -12,12 +12,12 @@ Impacto do uso de ferramentas de análise estática na identificação de vulner
 
 ## 1.3 Versão do documento
 
-- **Versão Atual:** v1.3
+- **Versão Atual:** v1.4
 
 ## 1.4 Datas
 
 **Data de criação:** 17/11/2025 | 
-**Ultima atualização:** 19/11/2025
+**Ultima atualização:** 24/11/2025
 
 ## 1.5 Autores
 
@@ -368,3 +368,225 @@ Esse referencial teórico e empírico servirá de base para:
 - problemas técnicos críticos no ambiente experimental
 
 ---
+
+# 7. Modelo conceitual e hipóteses
+
+## 7.1 Modelo conceitual do experimento
+
+Este experimento busca investigar como **a ferramenta de análise estática utilizada (CodeQL ou SonarQube)** influencia:
+
+- a quantidade total de vulnerabilidades detectadas,
+- o tipo e severidade das vulnerabilidades encontradas,
+- a taxa de falsos positivos,
+- e o esforço necessário para triagem.
+
+O modelo conceitual assume que:
+
+- **Ferramentas diferentes possuem heurísticas e mecanismos distintos**, logo tendem a produzir **resultados quantitativos e qualitativos diferentes**.
+- Espera-se que o **CodeQL**, por ser baseado em consultas semânticas personalizáveis, **encontre vulnerabilidades mais específicas**, porém com maior custo de triagem.
+- Espera-se que o **SonarQube**, por ser mais voltado à inspeção geral de qualidade, **encontre mais code smells e problemas estruturais**, mas com maior taxa de falsos positivos em segurança.
+- Essas diferenças afetam diretamente as **variáveis dependentes**: número de alertas, severidade, esforço, falsos positivos, qualidade final.
+
+**Resumo textual do modelo conceitual:**  
+> *A escolha da ferramenta influencia o número, tipo e severidade das vulnerabilidades encontradas, o esforço de triagem e a taxa de falsos positivos (respostas).*
+
+---
+
+## 7.2 Hipóteses formais (H0, H1)
+
+Para cada questão principal:
+
+### **Hipótese 1 — Número total de vulnerabilidades**
+- **H0:** Não há diferença significativa no número total de vulnerabilidades detectadas por CodeQL e SonarQube.  
+- **H1:** Há diferença significativa no número total de vulnerabilidades detectadas (espera-se que CodeQL detecte mais vulnerabilidades relevantes).
+
+### **Hipótese 2 — Severidade das vulnerabilidades**
+- **H0:** Não há diferença significativa no número de vulnerabilidades críticas/altas detectadas pelas ferramentas.  
+- **H1:** Há diferença significativa (espera-se que o CodeQL encontre mais vulnerabilidades críticas).
+
+### **Hipótese 3 — Taxa de falsos positivos**
+- **H0:** Não há diferença significativa entre as ferramentas na taxa de falsos positivos.  
+- **H1:** Há diferença significativa (espera-se que SonarQube tenha maior taxa de falsos positivos).
+
+### **Hipótese 4 — Esforço de triagem**
+- **H0:** Não há diferença significativa no esforço de triagem necessário para tratar alertas entre ferramentas.  
+- **H1:** Há diferença significativa (espera-se maior esforço com o CodeQL).
+
+### **Hipótese 5 — Qualidade interna do código**
+- **H0:** O uso das ferramentas não altera a qualidade interna (complexidade, code smells).  
+- **H1:** O uso das ferramentas altera essas métricas (espera-se redução em code smells com SonarQube e redução de vulnerabilidades com CodeQL).
+
+---
+
+## 7.3 Nível de significância e considerações de poder
+
+- O experimento adotará **α = 0,05** como nível de significância.
+- O poder estatístico desejado é **≥ 0,8**, porém reconhece-se que:
+  - o tamanho da amostra será limitado pelo número de módulos/projetos analisados,
+  - o experimento pode ter **poder reduzido** se houver poucas observações por ferramenta.
+- Para mitigar isso:
+  - serão utilizados **múltiplos projetos/modos** como replicações,
+  - serão aplicados testes estatísticos não paramétricos quando necessário.
+
+---
+
+# 8. Variáveis, fatores, tratamentos e objetos de estudo
+
+## 8.1 Objetos de estudo
+
+Os objetos avaliados serão:
+
+- **Projetos Node.js open source do GitHub**, contendo:
+  - arquivos `.js` e `.ts`,
+  - módulos de backend,
+  - pipelines e estrutura de funcionalidades,
+  - histórico de commits e issues.
+
+Serão escolhidos **3 a 5 repositórios**, de tamanhos mínimos compatíveis com SAST.
+
+---
+
+## 8.2 Sujeitos / participantes (visão geral)
+
+Este experimento **não envolve participantes humanos diretamente**.  
+As análises serão conduzidas pelo pesquisador (aluno), e os “sujeitos” do ponto de vista experimental são **as ferramentas e os repositórios**.
+
+---
+
+## 8.3 Variáveis independentes (fatores) e seus níveis
+
+### **Fator principal**
+- **Ferramenta de análise estática (F1)**
+  - **Nível 1:** CodeQL  
+  - **Nível 2:** SonarQube  
+
+### **Fator secundário opcional (se incluído)**
+- **Projeto analisado (F2)** — usado como bloco
+  - Projeto A  
+  - Projeto B  
+  - Projeto C  
+
+---
+
+## 8.4 Tratamentos (condições experimentais)
+
+| Tratamento | Descrição |
+|------------|-----------|
+| **T1 – CodeQL** | Execução completa do CodeQL com consultas padrão + queries de segurança. |
+| **T2 – SonarQube** | Execução completa do SonarQube com perfil de qualidade padrão Node.js. |
+
+**Ambos os tratamentos serão aplicados a todos os projetos** (delineamento fatorial completo 2×N).
+
+---
+
+## 8.5 Variáveis dependentes (respostas)
+
+| Variável dependente | Descrição |
+|---------------------|-----------|
+| V1 – Nº total de vulnerabilidades | Quantidade total de vulnerabilidades detectadas |
+| V2 – Nº de vulnerabilidades críticas/altas | Severidade alta/critica |
+| V3 – Taxa de falsos positivos | Falsos positivos ÷ alertas totais |
+| V4 – Tempo de triagem | Tempo para analisar e classificar alertas |
+| V5 – Nº de code smells | Problemas de qualidade identificados |
+| V6 – Complexidade ciclomática média | Média por módulo antes/depois |
+
+---
+
+## 8.6 Variáveis de controle / bloqueio
+
+- Versão da linguagem Node.js usada pelo CodeQL.
+- Versão do SonarScanner.
+- Hardware e ambiente de execução local.
+- Configuração padrão das ferramentas (sem tuning avançado).
+- Linha do tempo: ambos os tratamentos aplicados no mesmo período.
+- Mesmo conjunto de arquivos analisados em ambas ferramentas.
+
+---
+
+## 8.7 Possíveis variáveis de confusão conhecidas
+
+- Diferença na estrutura e maturidade dos projetos.
+- Qualidade de configuração automática das ferramentas.
+- Atualizações de assinatura durante o período da análise.
+- Subjetividade na classificação manual de falsos positivos.
+- Presença de código morto, duplicado ou experimental nos repositórios.
+
+---
+
+# 9. Desenho experimental
+
+## 9.1 Tipo de desenho
+
+Será utilizado um **delineamento fatorial 2 × N com blocos**, onde:
+
+- Fator principal: ferramenta (CodeQL, SonarQube)
+- Blocos: projetos
+
+**Justificativa**  
+Esse desenho permite:
+
+- controlar variabilidade natural entre projetos,
+- aplicar ambas ferramentas a todos os objetos,
+- comparar tratamentos diretamente.
+
+---
+
+## 9.2 Randomização e alocação
+
+- A **ordem de execução das ferramentas** para cada projeto será randomizada usando:
+  - random.org  
+  - Python `random.shuffle()`
+- Os projetos serão selecionados de forma pseudoaleatória dentre os candidatos.
+
+---
+
+## 9.3 Balanceamento e contrabalanço
+
+- Cada projeto recebe **ambos tratamentos**, garantindo **balanceamento total**.  
+- O contrabalanço será feito randomizando **quem roda primeiro**:
+  - Em alguns projetos → primeiro CodeQL  
+  - Em outros → primeiro SonarQube  
+- Isso evita:
+  - viés de ordem,
+  - influência de atualizações temporárias,
+  - efeitos de cache.
+
+---
+
+## 9.4 Número de grupos e sessões
+
+- **Grupos:** 1 
+- **Tratamentos:** 2 (CodeQL e SonarQube)
+- **Sessões por projeto:** 2
+  - Sessão 1: execução da ferramenta A
+  - Sessão 2: execução da ferramenta B
+- **Total previsto:**  
+  - 3 a 5 projetos × 2 sessões = **6 a 10 execuções completas**
+
+Justificativa:  
+Um número maior que três replicações aumenta confiabilidade sem comprometer tempo de execução.
+
+---
+
+## Tabela de Variáveis
+
+| Tipo | Nome | Descrição |
+|------|------|-----------|
+| Independente | F1 – Ferramenta | CodeQL ou SonarQube |
+| Independente (bloco) | F2 – Projeto | Projeto A/B/C |
+| Dependente | V1 | Nº total de vulnerabilidades |
+| Dependente | V2 | Nº de vulnerabilidades críticas |
+| Dependente | V3 | Taxa de falsos positivos |
+| Dependente | V4 | Tempo de triagem |
+| Dependente | V5 | Nº de code smells |
+| Dependente | V6 | Complexidade ciclomática |
+
+---
+
+## Tabela de Fatores, Tratamentos e Combinações
+
+| Fator | Níveis | Tratamentos Gerados | Combinações |
+|-------|--------|----------------------|--------------|
+| F1 – Ferramenta | CodeQL / SonarQube | T1 / T2 | 2 |
+| F2 – Projeto (bloco) | A, B, C | — | 2 × 3 = 6 condições |
+| **Delineamento total** | — | CodeQL × Projetos / SonarQube × Projetos | 6 execuções |
