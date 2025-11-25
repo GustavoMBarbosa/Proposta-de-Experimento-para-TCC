@@ -12,7 +12,7 @@ Impacto do uso de ferramentas de análise estática na identificação de vulner
 
 ## 1.3 Versão do documento
 
-- **Versão Atual:** v1.4
+- **Versão Atual:** v1.5
 
 ## 1.4 Datas
 
@@ -590,3 +590,587 @@ Um número maior que três replicações aumenta confiabilidade sem comprometer 
 | F1 – Ferramenta | CodeQL / SonarQube | T1 / T2 | 2 |
 | F2 – Projeto (bloco) | A, B, C | — | 2 × 3 = 6 condições |
 | **Delineamento total** | — | CodeQL × Projetos / SonarQube × Projetos | 6 execuções |
+
+---
+
+# 10. População, sujeitos e amostragem
+
+## 10.1 População-alvo
+
+A população-alvo deste experimento é composta por:
+
+> **Projetos Node.js típicos de desenvolvimento backend, mantidos por equipes que utilizam ferramentas de análise estática para detecção de vulnerabilidades e problemas de qualidade.**
+
+Mais genericamente, buscamos representar:
+
+- desenvolvedores que trabalham com aplicações Node.js,
+- pipelines de CI que executam SAST,
+- repositorios reais com código JavaScript/TypeScript em uso ativo.
+
+O experimento representa a tomada de decisão comum entre equipes que precisam escolher **qual ferramenta oferece melhor custo-benefício na detecção de vulnerabilidades**.
+
+---
+
+## 10.2 Critérios de inclusão de sujeitos
+
+Como o experimento **não envolve participantes humanos**, os “sujeitos” são considerados como:
+
+### **Projetos que serão analisados**  
+- Devem ser escritos em Node.js (JS/TS).
+- Devem ter mais de 500 linhas de código (para evitar projetos triviais).
+- Devem conter dependências e rotinas reais.
+- Devem ser open source ou permitir execução de SAST local.
+- Precisam compilar/executar sem erros críticos.
+
+### **Ferramentas**  
+- Devem estar operacionais localmente:
+  - CodeQL 2.x
+  - SonarScanner/SonarQube LTS
+
+---
+
+## 10.3 Critérios de exclusão de sujeitos
+
+- Projetos cujo build falha e impede análise.
+- Repositórios com menos de 30 dias de existência (risco de incompletude).
+- Projetos arquivados, abandonados ou sem contribuições recentes.
+- Projetos com dependências severamente desatualizadas que travem análise.
+- Projetos que utilizem linguagens híbridas que não sejam bem suportadas pelas ferramentas.
+
+---
+
+## 10.4 Tamanho da amostra planejado (por grupo)
+
+- **Projetos selecionados:** 3 a 5  
+- **Tratamentos por projeto:** 2 (CodeQL e SonarQube)  
+- **Total de execuções:** 6 a 10 (dependendo do número final de projetos)
+
+Justificativa:
+- Número suficiente para comparação estatística não paramétrica.
+- Tempo de execução compatível com o cronograma.
+- Replicação adequada (cada projeto recebe ambos os tratamentos).
+
+---
+
+## 10.5 Método de seleção / recrutamento
+
+Será utilizada **amostragem de conveniência + critérios de qualidade**:
+
+1. Busca no GitHub por projetos Node.js com:
+   - mais de 50 estrelas,
+   - contribuições recentes,
+   - testes automatizados,
+   - estrutura modular.
+
+2. Seleção manual final com base:
+   - no tamanho do código,
+   - na viabilidade da análise,
+   - na compatibilidade com CodeQL / SonarQube.
+
+---
+
+## 10.6 Treinamento e preparação dos sujeitos
+
+Como não há participantes humanos, o treinamento aplica-se ao pesquisador:
+
+- leitura da documentação oficial das ferramentas,
+- familiarização com:
+  - execução de CodeQL CLI,
+  - construção de bancos de dados CodeQL,
+  - execução do SonarScanner,
+  - interpretação das regras de segurança,
+  - classificação de falsos positivos,
+- guias internos com:
+  - comandos padronizados,
+  - templates de coleta,
+  - instruções para manter consistência nas execuções.
+
+---
+
+# 11. Instrumentação e Protocolo Operacional
+
+## 11.1 Instrumentos de coleta
+
+| Instrumento | Descrição |
+|-------------|-----------|
+| **Script Python de automação** | Executa as ferramentas em cada projeto e coleta métricas. |
+| **Logs do CodeQL** | Contêm vulnerabilidades encontradas, severidade e tempo de execução. |
+| **Relatórios do SonarQube** | Incluem issues, severidade, code smells e vulnerabilidades. |
+| **Planilha CSV** | Armazena os resultados consolidados por projeto × ferramenta. |
+| **Checklist de falsos positivos** | Usado para classificação manual (verdadeiro/ falso positivo). |
+| **Script de parsing** | Extrai métricas objetivas: contagem, severidade, tempo, complexidade. |
+
+---
+
+## 11.2 Materiais de suporte
+
+- Guia rápido de execução padrão (1 página)
+- Fluxograma operacional (inserido ao final do arquivo)
+- Lista de comandos para CodeQL e SonarQube
+- Template do CSV de resultados
+- Critérios para classificação de falsos positivos
+- Guia de preparação do ambiente:
+  - instalação do CodeQL
+  - instalação do SonarScanner
+  - configuração de JAVA_HOME
+  - requisitos mínimos para execução
+
+---
+
+## 11.3 Procedimento experimental (protocolo – passo a passo)
+
+1. Selecionar os projetos candidatos no GitHub.  
+2. Validar compatibilidade com Node.js e ferramentas.  
+3. Clonar todos os projetos localmente.  
+4. Criar ambiente padronizado (Node.js, Java, CodeQL, SonarQube).  
+5. Randomizar a ordem de execução das ferramentas para cada projeto.  
+6. **Para cada projeto:**
+   1. Executar a ferramenta sorteada primeiro (CodeQL ou SonarQube).  
+   2. Registrar:
+      - número de vulnerabilidades,
+      - severidade,
+      - code smells,
+      - tempo total de execução,
+      - logs de análise.
+   3. Classificar vulnerabilidades como:
+      - verdadeiro positivo
+      - falso positivo
+   4. Executar a segunda ferramenta.  
+   5. Repetir o mesmo processo de coleta.  
+7. Consolidar todos os dados na planilha CSV.  
+8. Validar inconsistências entre leituras.  
+9. Gerar scripts de análise preliminar.  
+10. Armazenar resultados no GitHub.  
+
+---
+
+## 11.4 Plano de piloto
+
+Um piloto será realizado utilizando **1 projeto Node.js pequeno (≤ 1000 linhas)**.
+
+Objetivos:
+- validar funcionamento de CodeQL e SonarQube,
+- testar o script de automação,
+- checar problemas:
+  - erros de build,
+  - incompatibilidades,
+  - métricas incorretas,
+  - tempo de execução impraticável,
+- ajustar:
+  - comandos,
+  - estrutura da planilha,
+  - critérios de classificação de falsos positivos.
+
+Critérios de ajuste:
+- erro crítico em qualquer ferramenta,
+- inconsistência entre runs,
+- tempo de execução acima de 10 min por projeto,
+- projeto gerando alertas impossíveis de classificar.
+
+---
+
+# 12. Plano de análise de dados (pré-execução)
+
+## 12.1 Estratégia geral de análise
+
+Cada questão de pesquisa será respondida com base em:
+
+- Comparação direta entre CodeQL e SonarQube em cada métrica.
+- Visualizações (boxplots, histogramas, gráficos de barras).
+- Testes estatísticos para verificar diferença significativa.
+- Classificação e discussão sobre falsos positivos.
+- Análise por severidade das vulnerabilidades (baixa/média/alta/crítica).
+- Síntese final sobre qual ferramenta oferece melhor custo-benefício.
+
+---
+
+## 12.2 Métodos estatísticos planejados
+
+Como as amostras são pequenas e emparelhadas (mesmos projetos × duas ferramentas), os métodos previstos são:
+
+- **Testes não paramétricos:**
+  - Wilcoxon Signed-Rank (2 condições emparelhadas)
+  - Mann–Whitney (se necessário para grupos independentes)
+- **Comparação de proporções:**
+  - Teste de McNemar (para falsos positivos)
+- **Correlação/Kendall** (se houver análise entre severidade × contagem)
+- **Métricas descritivas:**
+  - média,
+  - mediana,
+  - variância,
+  - intervalo interquartil.
+
+---
+
+## 12.3 Tratamento de dados faltantes e outliers
+
+Regras pré-definidas:
+
+- Se algum projeto falhar em uma ferramenta (ex.: Sonar scanner crash), o resultado será:
+  - documentado,
+  - excluído do teste estatístico,
+  - mas mantido no relatório como limitação.
+- Dados ausentes não serão imputados artificialmente.
+- Outliers serão verificados por inspeção de:
+  - erro de execução,
+  - duplicação de alertas,
+  - falhas na classificação manual.
+- Caso outlier seja real (projeto atípico), será mantido, mas analisado separadamente.
+
+---
+
+## 12.4 Plano de análise para dados qualitativos
+
+Se houver comentários qualitativos, serão analisados por:
+
+- **Codificação aberta**: identificação de padrões sobre qualidade dos alertas.  
+- **Categorias emergentes**:
+  - clareza das mensagens,
+  - dificuldade de entender o alerta,
+  - esforço manual para triagem,
+  - relevância pragmática das vulnerabilidades detectadas.
+- **Análise temática** para sintetizar pontos fortes e fracos de cada ferramenta.
+
+---
+
+# Fluxograma do Experimento
+
+```mermaid
+flowchart TD
+    A[Selecionar projetos no GitHub] --> B[Validar compatibilidade e critérios]
+    B --> C[Clonar repositórios]
+    C --> D[Preparar ambiente padronizado]
+    D --> E[Randomizar ordem das ferramentas por projeto]
+
+    E --> F{Início do ciclo por projeto}
+    F --> G[Executar 1ª ferramenta sorteada]
+    G --> H[Coletar métricas e logs]
+    H --> I[Classificar falsos positivos]
+    I --> J[Executar 2ª ferramenta]
+    J --> K[Coletar métricas e logs]
+    K --> L[Consolidar resultados no CSV]
+
+    L --> M{Mais projetos?}
+    M --> |Sim| F
+    M --> |Não| N[Validar consistência dos dados]
+    N --> O[Executar análises preliminares]
+    O --> P[Gerar relatório final no GitHub]
+```
+
+---
+
+---
+
+## 13. Avaliação de validade (ameaças e mitigação)
+
+### 13.1 Validade de conclusão
+**Ameaça 1 — Baixo poder estatístico**  
+- **Descrição:** número pequeno de projetos pode impedir detecção de diferenças reais entre ferramentas.  
+- **Categoria:** Validade de conclusão (poder estatístico).  
+- **Mitigação:** aumentar o número de projetos na medida do possível (alvo: 4–6); usar testes não paramétricos; reportar intervalos de confiança e tamanho do efeito; relatar limitações do poder na discussão.
+
+**Ameaça 2 — Erros de medida / Parsing de dados**  
+- **Descrição:** falhas nos scripts de extração podem duplicar ou omitir alertas.  
+- **Categoria:** Validade de conclusão / construto.  
+- **Mitigação:** testar e versionar scripts; validação cruzada com relatórios brutos; piloto para calibrar parser; revisão manual de amostras.
+
+### 13.2 Validade interna
+**Ameaça 3 — History (atualizações das ferramentas)**  
+- **Descrição:** atualizações de regras/engines durante a execução podem alterar os resultados entre runs.  
+- **Categoria:** Validade interna (history).  
+- **Mitigação:** congelar versões das ferramentas e regras; documentar hashes/versões; executar os dois tratamentos por projeto em curto intervalo de tempo.
+
+**Ameaça 4 — Maturation / mudanças no repositório**  
+- **Descrição:** commits ou alterações no projeto entre execuções podem modificar o código analisado.  
+- **Categoria:** Validade interna (maturation).  
+- **Mitigação:** clonar e analisar snapshots imutáveis (hash do commit); evitar executar ferramentas em repositórios que recebam commits durante o experimento.
+
+### 13.3 Validade de constructo
+**Ameaça 5 — Triagem subjetiva dos alertas (falsos positivos)**  
+- **Descrição:** classificação manual de verdadeiro/falso positivo pode ser subjetiva e variar entre triadores.  
+- **Categoria:** Validade de constructo.  
+- **Mitigação:** usar checklist padronizado; dupla verificação em amostras (kappa de concordância); registrar justificativas curtas para cada decisão; treinar triadores.
+
+**Ameaça 6 — Métrica proxy inadequada**  
+- **Descrição:** número de alertas nem sempre representa "vulnerabilidade real".  
+- **Categoria:** Validade de constructo.  
+- **Mitigação:** complementar com análise qualitativa de amostras; usar métricas adicionais (ex.: taxa de VP, severidade crítica); explicitar operacionalização das métricas.
+
+### 13.4 Validade externa
+**Ameaça 7 — Seleção enviesada de projetos**  
+- **Descrição:** escolher apenas projetos com certas características (ex.: muitos stars) reduz generalização.  
+- **Categoria:** Validade externa.  
+- **Mitigação:** definir e documentar critérios claros de inclusão/exclusão; apresentar características dos projetos selecionados; sugerir replicação em outros ecossistemas.
+
+**Ameaça 8 — Contexto limitado (Node.js open source)**  
+- **Descrição:** resultados podem não se aplicar a outras linguagens, projetos privados ou ferramentas comerciais.  
+- **Categoria:** Validade externa.  
+- **Mitigação:** descrever contexto detalhadamente; propor estudos de replicação; restringir conclusões ao escopo estudado.
+
+### 13.5 Resumo — principais ameaças e estratégias (tabela)
+
+| Ameaça | Categoria | Mitigação (resumo) |
+|--------|----------|--------------------|
+| Baixo poder estatístico | Conclusão | aumentar n, testes não paramétricos, reportar limites |
+| Erros de parsing | Conclusão/Constructo | testar scripts, piloto, validação manual |
+| Atualizações das ferramentas | Interna (history) | congelar versões, executar rápido por projeto |
+| Maturation (commits) | Interna | analisar snapshots (commit hash) |
+| Triagem subjetiva | Constructo | checklist, dupla verificação, treinamento |
+| Métrica proxy inadequada | Constructo | métricas complementares, análise qualitativa |
+| Seleção enviesada | Externa | critérios claros, documentação das amostras |
+| Contexto limitado | Externa | detalhar contexto, sugerir replicações |
+
+---
+
+## 14. Ética, privacidade e conformidade
+
+### 14.1 Questões éticas
+- **Uso de sujeitos humanos:** o experimento principal não envolve coleta direta de dados pessoais de participantes — o foco são repositórios open source e ferramentas.  
+- **Risco de pressão:** se, em fases futuras, houver colaboradores/avaliadores humanos (ex.: para triagem manual), evitar coerção (participação voluntária).  
+- **Incentivos:** caso use estudantes/colaboradores para triagem, prever incentivos éticos (créditos acadêmicos ou reconhecimento) e informar que participação é voluntária.
+
+**Tratamento**
+- Garantir voluntariedade e anonimato nas contribuições humanas.  
+- Não publicar dados pessoais ou e-mails sem consentimento explícito.
+
+---
+
+### 14.2 Consentimento informado
+- Para qualquer pessoa envolvida em triagem/manual (se houver): fornecer um **term o curto de consentimento** descrevendo:
+  - objetivo do estudo,
+  - atividades esperadas (triagem, classificação),
+  - riscos e benefícios,
+  - uso dos dados e anonimização,
+  - contato do pesquisador e do orientador,
+  - opção de retirar consentimento.
+- Registrar aceite por e-mail ou formulário simples antes do início da atividade.
+
+---
+
+### 14.3 Privacidade e proteção de dados
+- **Dados pessoais coletados:** somente identificadores mínimos se estritamente necessários (ex.: pseudônimos dos triadores); preferir anonimização.  
+- **Proteção:** armazenar dados em repositório privado (GitHub privado ou drive com acesso controlado); backups criptografados localmente; controle de acesso por necessidade.  
+- **Retenção:** manter dados pessoais apenas pelo tempo necessário (~1 ano) e depois apagar ou arquivar de maneira anonimizada.  
+- **Pseudonimização/anonimização:** usar IDs para anotadores; separar arquivo de metadados pessoais com acesso restrito.
+
+---
+
+### 14.4 Aprovações necessárias
+- **Comitê de Ética (se aplicável):** verificar exigência da instituição para uso de estudantes/participantes humanos.  
+- **Gestores/Orientador:** aceite formal do orientador (obrigatório).  
+- **DPO / Jurídico:** se houver dúvidas sobre uso de repositórios que contenham dados sensíveis, consultar DPO.  
+- **Status atual:** (preencher conforme andamento) — por padrão: **aguardando submissão** (adicionar registro quando submetido).
+
+---
+
+## 15. Recursos, infraestrutura e orçamento
+
+### 15.1 Recursos humanos e papéis
+
+| Papel | Nome / Titulação | Responsabilidades |
+|-------|------------------|-------------------|
+| PI / Pesquisador | Gustavo Menezes Barbosa | condução do experimento, execução das ferramentas, análise e relatório |
+| Orientador | Prof. (nome) | revisão técnica e metodológica, aprovação final |
+| Assistente técnico (opcional) | (nome) | suporte na execução de scripts, manutenção do ambiente |
+| Triador(es) (opcional) | estudantes/colaboradores | classificação manual de falsos positivos |
+| Revisor | colega/avaliador | revisão de consistência dos resultados |
+
+---
+
+### 15.2 Infraestrutura técnica necessária
+
+- Máquina(s) com: CPU razoável (quad-core), 8–16 GB RAM, espaço em disco 50 GB.  
+- Ambiente: Node.js (versão compatível), Java (para SonarQube), Docker (opcional).  
+- Ferramentas: CodeQL CLI, SonarQube (local/standalone) + SonarScanner, Git, Python (scripts de parsing).  
+- Repositório de resultados: GitHub (privado/publico conforme permissão), planilhas (CSV), backups.  
+- Ferramenta de comunicação: e-mail, Slack/Teams (para coordenação).
+
+---
+
+### 15.3 Materiais e insumos
+
+- Licenças: normalmente ferramentas escolhidas têm versões comunitárias; se optar por SonarQube commercial, prever custo.  
+- Documentos: templates de CSV, guias, checklists de triagem, formulário de consentimento.  
+- Hardware: laptop do pesquisador + (opcional) VM/servidor para SonarQube.  
+- Custo de armazenamento/backup (mínimo).
+
+---
+
+### 15.4 Orçamento e custos estimados (estimativa)
+
+| Item | Estimativa (BRL) | Observação |
+|------|------------------:|-----------|
+| Horas do pesquisador (estimadas 80 h) | 4.000 | R$50/h hipotético (apenas referencia) |
+| Assistente (20 h) | 1.000 | opcional |
+| Infraestrutura (VM pequena 1 mês) | 150 | ou usar máquina local |
+| Licença SonarQube (se necessária) | variável | opcional |
+| Total estimado (mínimo) | **R$5.150** | estimativa conservadora |
+
+---
+
+## 16. Cronograma, marcos e riscos operacionais
+
+### 16.1 Macrocronograma (até o início da execução)
+
+| Marco | Data prevista |
+|-------|---------------|
+| Conclusão do planejamento (entregas 1–5) | 24/11/2025 |
+| Preparação do ambiente e scripts | 28/11/2025 |
+| Piloto (1 projeto) | 02/12/2025 |
+| Ajustes pós-piloto | 05/12/2025 |
+| Seleção final dos projetos | 07/12/2025 |
+| Início da execução (runs) | 09/12/2025 |
+
+---
+
+### 16.2 Dependências entre atividades
+
+- **Piloto** depende de ambiente configurado e scripts prontos.  
+- **Execução completa** depende de ajustes do piloto e aprovação ética (se houver triadores humanos).  
+- **Análise** depende da consolidação dos CSVs e validação dos dados.
+
+---
+
+### 16.3 Riscos operacionais e plano de contingência
+
+| Risco | Probabilidade | Impacto | Plano de contingência |
+|-------|---------------:|--------:|-----------------------|
+| Falha no build do projeto | Médio | Alto | tentar projeto alternativo; documentar exclusão |
+| Tempo de execução maior que o esperado | Médio | Médio | limitar número de projetos; aumentar tempo alocado |
+| Atualização inesperada das ferramentas | Baixo | Médio | congelar versão; reverter atualização |
+| Falta de recursos (memória/CPU) | Médio | Alto | usar VM/servidor na nuvem pontual |
+| Problema com triadores humanos | Baixo | Médio | atrasar triagem; reduz número de amostras; realizar triagem pelo pesquisador |
+
+---
+
+## 17. Governança do experimento
+
+### 17.1 Papéis e responsabilidades formais
+
+- **Decide (Aprova mudanças de alto nível):** Orientador + Comitê do curso  
+- **Executa / Opera:** PI (Gustavo) 
+- **Revisa:** orientador e revisor designado  
+- **Informa:** stakeholders listados (professor, equipe de disciplina, eventuais colaboradores)
+
+---
+
+### 17.2 Ritos de acompanhamento pré-execução
+
+- **Reunião de kickoff:** validação do plano (antes do piloto) — participantes: PI, orientador (30–60 min)  
+- **Checkpoint pós-piloto:** revisar ajustes necessários — 1 reunião (30 min)  
+- **Relatórios semanais:** breve atualização por e-mail ao orientador durante execução 
+- **Revisão final pré-análise:** reunião para checar dados consolidados (1 h)
+
+---
+
+### 17.3 Processo de controle de mudanças no plano
+
+1. Proposta de mudança (documento curto) — autor: PI.  
+2. Revisão técnica — orientador e, se aplicável, assistente técnico.  
+3. Aprovação formal — orientador.  
+4. Registro da mudança no histórico do documento (versão, data, descrição).  
+
+Mudanças urgentes documentadas no repositório com issue/PR para rastreabilidade.
+
+---
+
+## 18. Plano de documentação e reprodutibilidade
+
+### 18.1 Repositórios e convenções de nomeação
+
+- **Repositório principal:** `https://github.com/GustavoMBarbosa/Proposta-de-Experimento-para-TCC`  
+- Estrutura sugerida:
+  - `/docs` — planos, guias, consentimentos
+  - `/scripts` — scripts de execução e parsing
+  - `/data/raw` — relatórios originais (logs)
+  - `/data/processed` — CSVs consolidados
+  - `/analysis` — notebooks / scripts de análise
+  - `/results` — gráficos e relatórios finais
+- Convenção de nomes: `tool_project_YYYYMMDD.log` / `results_tool_project.csv`
+
+---
+
+### 18.2 Templates e artefatos padrão
+
+- Template CSV de resultados (colunas padronizadas: project, tool, date, vuln_id, severity, is_fp, time_seconds, etc.)  
+- Checklist de triagem (verdadeiro/falso, justificativa curta)  
+- Guia de execução (comandos exatos)  
+- Formulário de consentimento (se aplicável)  
+- Template de report/issue para documentar exclusões
+
+---
+
+### 18.3 Plano de empacotamento para replicação futura
+
+Ao final do experimento será organizado um pacote reprodutível contendo:
+
+- scripts automatizados para executar CodeQL e SonarQube nos projetos (ou instruções Docker),  
+- todos os CSVs originais e processados (com metadados),  
+- notebook ou script de análise (com versões das bibliotecas),  
+- README com passo-a-passo para reproduzir (incluindo versões exatas de ferramentas),  
+- checklist de pré-requisitos de hardware e software.
+
+Esse pacote será disponibilizado no GitHub com licença adequada.
+
+---
+
+## 19. Plano de comunicação
+
+### 19.1 Públicos e mensagens-chave pré-execução
+
+| Público | Mensagem-chave |
+|--------|----------------|
+| Professor / Orientador | objetivo do experimento, escopo, cronograma e pedidos de aprovação |
+| Colegas de disciplina | aviso sobre potencial uso de repositórios open source e convite para revisão |
+| Triadores / colaboradores | objetivos, instruções, consentimento, expectativa de esforço |
+| Comunidade (GitHub repo público) | resumo do experimento, como reproduzir, dados disponibilizados |
+
+---
+
+### 19.2 Canais e frequência de comunicação
+
+- **E-mail**: para comunicações formais (kickoff, aprovações) — conforme necessidade.  
+- **Slack/Teams**: coordenação diária/curta — se disponível.  
+- **Issues/PRs no GitHub**: registro oficial de mudanças no plano e problemas — contínuo.  
+- **Relatório semanal por e-mail** para orientador durante execução.
+
+---
+
+### 19.3 Pontos de comunicação obrigatórios
+
+- Aprovação final do plano (kickoff) — comunicação formal por e-mail.  
+- Resultados do piloto e decisões de ajuste — reunião + ata.  
+- Alterações relevantes no cronograma ou escopo — publicar issue e notificar orientador.  
+- Conclusão das execuções e início da análise — e-mail e PR com dados consolidados.
+
+---
+
+## 20. Critérios de prontidão para execução (Definition of Ready)
+
+### 20.1 Checklist de prontidão
+
+Antes de autorizar início da execução completa, confirmar:
+
+- [ ] Plano de experimento finalizado e revisado.  
+- [ ] Scripts de execução e parsing testados no piloto.  
+- [ ] Ambiente configurado (CodeQL e SonarQube instalados; versões documentadas).  
+- [ ] Projetos selecionados e clonados localmente.  
+- [ ] Template CSV e repositório prontos .  
+- [ ] Consentimento informado coletado.  
+- [ ] Aprovação do orientador obtida.  
+- [ ] Backup/contingência disponível.  
+- [ ] Cronograma e responsáveis confirmados.
+
+---
+
+### 20.2 Aprovações finais para iniciar a operação
+
+**Aceite final deve ser dado por:**
+
+1. **Orientador (Prof. Nome)** — aprovação metodológica e liberação para executar.  
+2. **Pesquisador / PI (Gustavo)** — confirmação operacional.  
+3. **Comitê de Ética** — aprovação documentada para atividades envolvendo humanos.
+
+O aceite será registrado como um documento assinado digitalmente (e-mail formal ou issue no GitHub com comentário de aprovação).
+
+---
