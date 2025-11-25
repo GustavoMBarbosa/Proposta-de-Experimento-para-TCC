@@ -12,7 +12,7 @@ Impacto do uso de ferramentas de análise estática na identificação de vulner
 
 ## 1.3 Versão do documento
 
-- **Versão Atual:** v1.5
+- **Versão Atual:** v1.6
 
 ## 1.4 Datas
 
@@ -1167,7 +1167,7 @@ Antes de autorizar início da execução completa, confirmar:
 
 **Aceite final deve ser dado por:**
 
-1. **Orientador (Prof. Nome)** — aprovação metodológica e liberação para executar.  
+1. **Orientador** — aprovação metodológica e liberação para executar.  
 2. **Pesquisador / PI (Gustavo)** — confirmação operacional.  
 3. **Comitê de Ética** — aprovação documentada para atividades envolvendo humanos.
 
