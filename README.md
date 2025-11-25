@@ -926,8 +926,7 @@ flowchart TD
 
 ### 14.1 Questões éticas
 - **Uso de sujeitos humanos:** o experimento principal não envolve coleta direta de dados pessoais de participantes — o foco são repositórios open source e ferramentas.  
-- **Risco de pressão:** se, em fases futuras, houver colaboradores/avaliadores humanos (ex.: para triagem manual), evitar coerção (participação voluntária).  
-- **Incentivos:** caso use estudantes/colaboradores para triagem, prever incentivos éticos (créditos acadêmicos ou reconhecimento) e informar que participação é voluntária.
+- **Risco de pressão:** se, em fases futuras, houver colaboradores/avaliadores humanos, evitar coerção.
 
 **Tratamento**
 - Garantir voluntariedade e anonimato nas contribuições humanas.  
@@ -936,7 +935,7 @@ flowchart TD
 ---
 
 ### 14.2 Consentimento informado
-- Para qualquer pessoa envolvida em triagem/manual (se houver): fornecer um **term o curto de consentimento** descrevendo:
+- Para qualquer pessoa envolvida em triagem/manual: fornecer um **term o curto de consentimento** descrevendo:
   - objetivo do estudo,
   - atividades esperadas (triagem, classificação),
   - riscos e benefícios,
@@ -948,8 +947,8 @@ flowchart TD
 ---
 
 ### 14.3 Privacidade e proteção de dados
-- **Dados pessoais coletados:** somente identificadores mínimos se estritamente necessários (ex.: pseudônimos dos triadores); preferir anonimização.  
-- **Proteção:** armazenar dados em repositório privado (GitHub privado ou drive com acesso controlado); backups criptografados localmente; controle de acesso por necessidade.  
+- **Dados pessoais coletados:** somente identificadores mínimos se estritamente necessários; preferir anonimização.  
+- **Proteção:** armazenar dados em repositório privado ; backups criptografados localmente; controle de acesso por necessidade.  
 - **Retenção:** manter dados pessoais apenas pelo tempo necessário (~1 ano) e depois apagar ou arquivar de maneira anonimizada.  
 - **Pseudonimização/anonimização:** usar IDs para anotadores; separar arquivo de metadados pessoais com acesso restrito.
 
@@ -957,9 +956,8 @@ flowchart TD
 
 ### 14.4 Aprovações necessárias
 - **Comitê de Ética (se aplicável):** verificar exigência da instituição para uso de estudantes/participantes humanos.  
-- **Gestores/Orientador:** aceite formal do orientador (obrigatório).  
+- **Gestores/Orientador:** aceite formal do orientador .  
 - **DPO / Jurídico:** se houver dúvidas sobre uso de repositórios que contenham dados sensíveis, consultar DPO.  
-- **Status atual:** (preencher conforme andamento) — por padrão: **aguardando submissão** (adicionar registro quando submetido).
 
 ---
 
