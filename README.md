@@ -12,12 +12,12 @@ Impacto do uso de ferramentas de análise estática na identificação de vulner
 
 ## 1.3 Versão do documento
 
-- **Versão Atual:** v1.6
+- **Versão Atual:** v1.7
 
 ## 1.4 Datas
 
 **Data de criação:** 17/11/2025 | 
-**Ultima atualização:** 24/11/2025
+**Ultima atualização:** 02/12/2025
 
 ## 1.5 Autores
 
@@ -520,7 +520,7 @@ As análises serão conduzidas pelo pesquisador (aluno), e os “sujeitos” do 
 Será utilizado um **delineamento fatorial 2 × N com blocos**, onde:
 
 - Fator principal: ferramenta (CodeQL, SonarQube)
-- Blocos: projetos
+- Blocos: projetos Node.Js
 
 **Justificativa**  
 Esse desenho permite:
