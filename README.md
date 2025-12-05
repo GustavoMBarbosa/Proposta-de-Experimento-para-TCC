@@ -995,7 +995,7 @@ flowchart TD
 
 ---
 
-### 15.4 Orçamento e custos estimados (estimativa)
+### 15.4 Orçamento e custos estimados (estimativa apenas)
 
 | Item | Estimativa (BRL) | Observação |
 |------|------------------:|-----------|
