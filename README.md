@@ -1,4 +1,3 @@
-<img width="751" height="801" alt="image" src="https://github.com/user-attachments/assets/576aa54a-2dc3-45c8-a655-e510eceb33a0" /># Plano de Experimento - Scoping e Planejamento
 ## Identiticação Básica, Contexto e Problema
 
 # 1. Identificação básica 
