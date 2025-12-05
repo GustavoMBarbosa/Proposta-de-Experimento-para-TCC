@@ -1,4 +1,4 @@
-# Plano de Experimento - Scoping e Planejamento
+<img width="751" height="801" alt="image" src="https://github.com/user-attachments/assets/576aa54a-2dc3-45c8-a655-e510eceb33a0" /># Plano de Experimento - Scoping e Planejamento
 ## Identiticação Básica, Contexto e Problema
 
 # 1. Identificação básica 
@@ -12,12 +12,12 @@ Impacto do uso de ferramentas de análise estática na identificação de vulner
 
 ## 1.3 Versão do documento
 
-- **Versão Atual:** v1.8
+- **Versão Atual:** v1.9
 
 ## 1.4 Datas
 
 **Data de criação:** 17/11/2025 | 
-**Ultima atualização:** 04/12/2025
+**Ultima atualização:** 05/12/2025
 
 ## 1.5 Autores
 
@@ -176,7 +176,7 @@ Esse referencial teórico e empírico servirá de base para:
 
 ---
 
-## 3.2
+## 3.2 Objetivos Específicos
 
 **O1.** Comparar a quantidade e o tipo de vulnerabilidades detectadas entre CodeQL e SonarQube.  
 **O2.** Avaliar o custo de triagem (tempo/esforço) dos alertas gerados pelas ferramentas.  
