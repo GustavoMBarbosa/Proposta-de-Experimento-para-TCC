@@ -956,7 +956,6 @@ flowchart TD
 ---
 
 ### 14.4 Aprovações necessárias
-- **O experimento não envolve coleta de dados pessoais, apenas de repositórios open source e ferramentas**.
 - **Comitê de Ética (se aplicável):** verificar exigência da instituição para uso de estudantes/participantes humanos.  
 - **Gestores/Orientador:** aceite formal do orientador .  
 - **DPO / Jurídico:** se houver dúvidas sobre uso de repositórios que contenham dados sensíveis, consultar DPO.  
