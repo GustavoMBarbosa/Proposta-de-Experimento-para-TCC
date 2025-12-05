@@ -3,7 +3,7 @@
 
 # 1. Identificação básica 
 
-## 1.1 Títutlo do experimento
+## 1.1 Título do experimento
 Impacto do uso de ferramentas de análise estática na identificação de vulnerabilidades em projetos Node.js open source
 
 ## 1.2 Código / Id
